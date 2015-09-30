@@ -1,15 +1,13 @@
 # This program calculates the area of a triangle or trapezoid, depending on the user's fancy.
-
 import sys
 
 # To ensure the script restarts if the user inputs something other than triangle or trapezoid,
 # I have a simple boolean condition: the "invalid_input" variable is set to true to start, and
-# if it stays that way, the program will continue and run the area-finding function. 
-
+# if it stays that way, the program will continue and run the area-finding function 'til it's set to
+# false by a successful triangle or trapezoid calculation. 
 invalid_input = True
 
 # I wrapped my if/elif/else statements into a function
-
 def area_calculator() :
 
 # This asks the user what shape they'd like to start with.
@@ -23,7 +21,7 @@ def area_calculator() :
         
         # the calculation is performed and the inputs are concatenated into the result statement along with the triangle's area.
         triangle_area = 0.5 * triangle_height * triangle_base
-        print "The area of a triangle with height", triangle_height, "and base", triangle_base, "is", triangle_area,"."
+        print "The area of a triangle with height", triangle_height, "and base length", triangle_base, "is", triangle_area,"."
         
         # since everything was successfully executed, the script stops.
         sys.exit()
@@ -37,7 +35,7 @@ def area_calculator() :
         trapezoid_base1 = input("Please enter the length of the trapezoid's lower base: ")
         trapezoid_base2 = input("Please enter the length of the trapezoid's upper base: ")
         
-        # the calculation is performed; I had to make the denominator 2.0 instead of 2 
+        # the calculation is performed; I made the denominator 2.0 instead of 2 
         # because python won't promote the quotient of two integers to a float.
         trapezoid_area = ((trapezoid_base1 + trapezoid_base2)/2.0) * trapezoid_height
         
@@ -50,7 +48,7 @@ def area_calculator() :
         
         
     else:
-        print "You can only type trapezoid or triangle. Don't get cute."
+        print "You can only type triangle or trapezoid. Don't get cute."
         
         # if the user enters anything other than triangle or trapezoid, the
         # invalid_input variable is set to True

@@ -12,6 +12,6 @@ base = input("Please enter the base length of the triangle: ")
 # times the base variable (which were given by the user in the previous block)
 area = 0.5 * height * base
 
-# This code concatenates the boilerplate below with the height, base and area values
-# calculated by the above code blocks.
+# This code concatenates the text below with the height, base and area values
+# previously calculated by the above code blocks.
 print "The area of a triangle with height", height, "and base", base, "is", area, "."

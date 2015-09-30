@@ -1,4 +1,5 @@
-# this program evaluates latitude and longitude inputs and says where they are.
+# this program evaluates latitude and longitude inputs and says where they are
+# in very general terms.
 
 print "This program gives extremely general locations if you feed it latitude and longitude coordinates."
 
@@ -8,6 +9,7 @@ longitude = input("Please enter a decimal longitude: ")
 print
 
 # the code below evaluates the latitude input and prints its general location.
+# if the input is outside -90 to 90, it says it isn't valid.
 if latitude == 0:
     print "That location is on the equator."
 elif 0 < latitude < 90:
@@ -18,6 +20,7 @@ else:
     print "That location does not have a valid latitude!"
     
 # the code below evaluates the longitude input and prints its general location.
+# if the input is outside -180 to 180, it says it isn't valid.
 if longitude == 0:
     print "That location is on the prime meridian."
 elif 0 < longitude < 180:
