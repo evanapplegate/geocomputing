@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
+# encoding: utf-8
 import sys
 
-# -*- coding: utf-8 -*-
 # Question 1: this function takes a tuple of three values and converts them to decimal degrees
 def DMS_to_DD(degrees, minutes, seconds):   
     
@@ -18,6 +17,7 @@ def DMS_to_DD(degrees, minutes, seconds):
         DD = float(degrees) + (float(minutes*-1)/60) + (float(seconds*-1)/3600)
         return DD
 
+# this is just a test statement
 # print DMS_to_DD(-30,30,00)
 
 # Question 2: this function takes a single value and converts it to decimal degrees
@@ -42,7 +42,8 @@ def DD_to_DMS(decimal_degrees):
         M = int((decimal_degrees - D)*60)
         S = int((decimal_degrees - D - (float(M)/60))*3600)
         return D, abs(M), abs(S)
-    
+
+# this is just a test statement    
 # print DD_to_DMS(102.263888889)
 
 user_input = raw_input("Enter a latitude or longitude value in DMS or DD format. Just numbers, commas between values, \
@@ -52,6 +53,23 @@ user_input_evaluation = user_input.split()
 
 if len(user_input_evaluation) == 1:
     DD_value_to_convert = float(user_input_evaluation[0])
-    DD_to_DMS(DD_value_to_convert)
+    DD_to_DMS_function_outputt = DD_to_DMS(DD_value_to_convert)
+    D_value = DD_to_DMS_function_output[0]
+    M_value = DD_to_DMS_function_output[1]
+    S_value = DD_to_DMS_function_output[2]
     print "The input value is in DD form."
-    print "Its DMS form is "+ str(D)+"º " + str(M)+"' "+ str(S)+"\""
+    print "Its DMS form is "+ str(D_value)+"º " + str(M_value)+"' "+ str(S_value)+"\""
+    
+if len(user_input_evaluation) == 3:    
+    DMS_value_to_convert = 
+
+"""
+# user_input_to_number = float(user_input)
+
+# print "The input value is in DMS form."
+# print "Its DD form is"
+
+print "The input value is in DD form."
+print "Its DMS form is "+ str(DD_to_DMS(user_input_to_number)[0])+"º " + str(DD_to_DMS(user_input_to_number)[1])+"' "+ \
+str(DD_to_DMS(user_input_to_number)[2])+"\""
+"""

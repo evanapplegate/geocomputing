@@ -4,4 +4,4 @@ def gasCost(miles, mpg, gasPrice) :
  
 cost = gasCost(125, 27, 3.90)
 roundedCost = round(cost)
-print roundedCost
+print gallons
