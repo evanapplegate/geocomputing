@@ -49,27 +49,22 @@ def DD_to_DMS(decimal_degrees):
 user_input = raw_input("Enter a latitude or longitude value in DMS or DD format. Just numbers, commas between values, \
 and no spaces: ")
 
-user_input_evaluation = user_input.split()
+user_input_evaluation = user_input.split(",")
 
 if len(user_input_evaluation) == 1:
     DD_value_to_convert = float(user_input_evaluation[0])
-    DD_to_DMS_function_outputt = DD_to_DMS(DD_value_to_convert)
+    DD_to_DMS_function_output = DD_to_DMS(DD_value_to_convert)
     D_value = DD_to_DMS_function_output[0]
     M_value = DD_to_DMS_function_output[1]
     S_value = DD_to_DMS_function_output[2]
     print "The input value is in DD form."
     print "Its DMS form is "+ str(D_value)+"º " + str(M_value)+"' "+ str(S_value)+"\""
-    
-if len(user_input_evaluation) == 3:    
-    DMS_value_to_convert = 
 
-"""
-# user_input_to_number = float(user_input)
-
-# print "The input value is in DMS form."
-# print "Its DD form is"
-
-print "The input value is in DD form."
-print "Its DMS form is "+ str(DD_to_DMS(user_input_to_number)[0])+"º " + str(DD_to_DMS(user_input_to_number)[1])+"' "+ \
-str(DD_to_DMS(user_input_to_number)[2])+"\""
-"""
+if len(user_input_evaluation) == 3:
+    degrees = float(user_input_evaluation[0])
+    minutes = float(user_input_evaluation[1])
+    seconds = float(user_input_evaluation[2])
+    #DMS_value_to_convert = str(degrees) minutes, seconds 
+    DMS_to_DD_function_output = DMS_to_DD(degrees, minutes, seconds)
+    print "The input value is in DMS form."
+    print "Its DD form is "+ str(DMS_to_DD_function_output)+"º"
