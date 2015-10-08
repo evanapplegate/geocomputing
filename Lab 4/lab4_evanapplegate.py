@@ -20,7 +20,7 @@ def DMS_to_DD(degrees, minutes, seconds):
 
 # print DMS_to_DD(-30,30,00)
 
-# Question 1: this function takes a single value and converts it to decimal degrees
+# Question 2: this function takes a single value and converts it to decimal degrees
 def DD_to_DMS(decimal_degrees):
     
     # if the degree value is positive, then run the DMS > DD formula as below.
@@ -51,20 +51,7 @@ and no spaces: ")
 user_input_evaluation = user_input.split()
 
 if len(user_input_evaluation) == 1:
-    DD_to_DMS(user_input_evaluation)
+    DD_value_to_convert = float(user_input_evaluation[0])
+    DD_to_DMS(DD_value_to_convert)
     print "The input value is in DD form."
-    print "Its DMS form is "+ str(DD_to_DMS(user_input_to_number)[0])+"º " + str(DD_to_DMS(user_input_to_number)[1])+"' "+ \
-    str(DD_to_DMS(user_input_to_number)[2])+"\""
-
-    if len(user_input_evaluation) == 3:
-    
-"""
-# user_input_to_number = float(user_input)
-
-# print "The input value is in DMS form."
-# print "Its DD form is"
-
-print "The input value is in DD form."
-print "Its DMS form is "+ str(DD_to_DMS(user_input_to_number)[0])+"º " + str(DD_to_DMS(user_input_to_number)[1])+"' "+ \
-str(DD_to_DMS(user_input_to_number)[2])+"\""
-"""
+    print "Its DMS form is "+ str(D)+"º " + str(M)+"' "+ str(S)+"\""
