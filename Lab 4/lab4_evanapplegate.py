@@ -25,7 +25,6 @@ def DD_to_DMS(decimal_degrees):
     # if the degree value is positive, then run the DMS > DD formula as below.
     # M (the minutes value) has to be converted back into a float because otherwise any decimal values will be dropped to zero
     # no error handling if someone tries to put in an illegal coordinate value, but there should be
-
     if decimal_degrees >= 0:
         D = int(decimal_degrees)
         M = int((decimal_degrees - D)*60)
@@ -47,10 +46,10 @@ def DD_to_DMS(decimal_degrees):
 user_input = raw_input("Enter a latitude or longitude value in DMS or DD format. Just numbers, commas between values, \
 and no spaces: ")
 
-# This converts the input string to a list of values 
+# This converts the input string to a list
 user_input_evaluation = user_input.split(",")
 
-# If the input string has only 1 value, i.e. it's a list with 1 item, then this assumes
+# If the input string has 1 value, i.e. it's a list with 1 item, then this assumes
 # that the input is a decimal degree coordinate
 if len(user_input_evaluation) == 1:
     DD_value_to_convert = float(user_input_evaluation[0])
