@@ -16,14 +16,16 @@ restart = True
 # I used a dict to store the information, keyed by the column "label." 
 # csv.DictReader loops through each line of the CSV and adds each row to its own
 # dict entry.
-# dicts dont store dupes, so when label and city match it throws one out.
-# but if you use "label" it uses the correct non-stupid-underscore key value,
+# dicts dont store duplicate values, so when the label and city match it throws one out.
+# but if you use "label" it uses the correct non-stupid-underscore key value, 
+# so that's good
 my_dict = {}
 reader = csv.DictReader(spreadsheet)
 for row in reader:
     key = row.pop("label")
     my_dict[key] = row
 
+print "This script calculates the great circle distance between two cities."
 
 # This function calculates the great circle distance between two lat/long pairs
 def great_circle_calculator(first_city_lat, first_city_long, second_city_lat, second_city_long):      
@@ -67,9 +69,9 @@ def distance_query(city1, city2):
 
 # run this code when the restart value equals true
 while restart == True:
+    
 # this asks the user to enter two cities; if the inputs
 # aren't found in the dict, it asks the user to try again
-    print "This script calculates the great circle distance between two cities."
     user_input_city1 = raw_input("Please enter the first city > ")
     if user_input_city1 in my_dict:
         user_input_city2 = raw_input("Please enter the second city > ")
@@ -84,7 +86,6 @@ while restart == True:
         print " "
         restart = True 
 
-# while the restart value = True, the script will restart. This is what
-# counts for error handling here    
+# while the restart value = True, the script will restart.
 while restart == False:
     sys.exit()

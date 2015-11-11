@@ -15,16 +15,18 @@ restart = True
 # I used a dict to store the information, keyed by the column "label." 
 # csv.DictReader loops through each line of the CSV and adds each row to its own
 # dict entry.
-# dicts dont store dupes, so when label and city match it throws one out.
-# but if you use "label" it uses the correct non-stupid-underscore key value,
-
+# dicts dont store duplicate values, so when the label and city match it throws one out.
+# but if you use "label" it uses the correct non-stupid-underscore key value, 
+# so that's good
 my_dict = {}
 reader = csv.DictReader(spreadsheet)
 for row in reader:
     key = row.pop("label")
     my_dict[key] = row
 
-# This function asks the user to enter a city; if it's a valid input, i.e. it
+print "This script finds the population of a city for a certain year."
+
+# This function asks the user to enter a city; if it's a valid input, i.e. if it
 # exists in the dict, it asks for a year. The year input string gets "yr" stuck to 
 # the front and then the script looks up the correct value and prints it in
 # a nice way
@@ -44,7 +46,6 @@ def population_query():
         print "Invalid city input. Try another city."
         restart = True 
 
-# while the restart value = True, the script will restart. This is what
-# counts for error handling here
+# while the restart value = True, the script will restart.
 while restart == True:
     population_query()
