@@ -36,6 +36,7 @@ def population_query():
                 print "The population of "+ user_input_city + " in " + user_input_year + " was " \
                 + my_dict[user_input_city]["yr"+user_input_year] + " million people"
                 restart = False
+                sys.exit()
             else:
                 print "Invalid year; choose a year from 1970-2010 in an increment of 5 years."
                 restart = True
