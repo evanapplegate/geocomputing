@@ -10,7 +10,7 @@ while True:
         # prompts the user to enter latitude and longitude values. This is stored as a list.
         coordinate_1 = input("Enter the first location in decimal degrees using the format [latitude], [longitude]: ")
         coordinate_2 = input("Enter the second location in decimal degrees using the format [latitude], [longitude]: ")
-    except SyntaxError:
+    except Exception:
         print "Whoops, looks like you tried to enter coordinates with N, W, S or E, or something else entirely; please enter decimal degrees."
         bad_input = True
     else: 

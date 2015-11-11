@@ -8,6 +8,8 @@ import csv
 os.chdir(os.path.dirname(sys.argv[0]))
 test = open("CityPop.csv","rt")
 
+restart = True
+
 my_dict = {}
 
 # dicts dont store dupes, so when label and city match it throws one out. great. but if you use label it uses
@@ -16,18 +18,37 @@ reader = csv.DictReader(test)
 for row in reader:
     key = row.pop("label")
     my_dict[key] = row
- 
+
 user_input_city = raw_input("Please enter a city > ")
-user_input_year = raw_input("Please choose a year; it can be from 1970 through 2010 in increments of 5 years > ")
+user_input_year = raw_input("Please enter a year; it can be from 1970 through 2010 in increments of 5 years > ")
 
-if user_input_city in my_dict:
-    #print my_dict[user_input_city][key]
+if "yr"+user_input_year in my_dict[user_input_city]["yr"+user_input_year]:
     print "The population of "+ user_input_city + " in " + user_input_year + " was " \
-    + my_dict[user_input_city]["yr"+user_input_year] + " million people"
-else: 
-    print "Try another city"
+                    + my_dict[user_input_city]["yr"+user_input_year] + " million people"
 
-"""
+"""  
+def population_query():
+    user_input_city = raw_input("Please enter a city > ")
+    if user_input_city in my_dict:
+        try:
+            user_input_year = raw_input("Please enter a year; it can be from 1970 through 2010 in increments of 5 years > ")
+            if "yr"+user_input_year in my_dict[user_input_city]["yr"+user_input_year]:
+                print "The population of "+ user_input_city + " in " + user_input_year + " was " \
+                + my_dict[user_input_city]["yr"+user_input_year] + " million people"
+        except Exception:
+            print "Invalid year; choose a year from 1970-2010 in an increment of 5 years."
+            restart = True
+        else:
+            print "Invalid year; choose a year from 1970-2010 in an increment of 5 years."
+    else: 
+        print "Invalid city input. Try another city."
+        restart = True
+            
+while restart == True :
+    population_query()
+
+
+
 #this is insanely sloppy list shit, need to use dicts here
 city_list = []
 pop_2010_list = []
