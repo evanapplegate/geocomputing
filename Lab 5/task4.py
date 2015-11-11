@@ -38,14 +38,17 @@ while restart == True:
     if "yr"+user_input_year1 in my_dict["Kinshasa"]:
         user_input_year2 = raw_input("Please enter the second year (between 1970-2010, 5 year increments) > ")
         if "yr"+user_input_year2 in my_dict["Kinshasa"]:
+            # writes column headers, including a custom one that changes depending on the user's year inputs
             col_head1 = "id"
             col_head2 = "city"
-            col_head3 = "population_change_from_" + str(user_input_year1) + "_to_" str(user_input_year2)
-            output.write("id,city,population_change\n")
+            col_head3 = "population_change_from_" + str(user_input_year1) + "_to_" + str(user_input_year2)
+            output.write(col_head1 + "," + col_head2 + "," + col_head3)
+            output.write("\n")
+            # a loop to write the id, city name, and the actual population change
             for city in my_dict:
                 output.write(my_dict[city]["id"] + "," + \
                              my_dict[city]["city"]  + "," + \
-                             str(float(my_dict[city]["yr"+user_input_year2]) - float(my_dict[city]["yr"+user_input_year1])))
+                             str(float(my_dict[city]["yr"+user_input_year1]) - float(my_dict[city]["yr"+user_input_year2])))
                 output.write("\n")
             output.close()
             sys.exit()
