@@ -1,0 +1,1 @@
+open("TomThumb.txt", 'wb')
