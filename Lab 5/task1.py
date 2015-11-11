@@ -18,37 +18,43 @@ reader = csv.DictReader(test)
 for row in reader:
     key = row.pop("label")
     my_dict[key] = row
+"""  
+if "yr2010" in my_dict["Kinshasa"]:
+    print my_dict["Kinshasa"]["yr2010"]
+else: print "key not found"
+  
 
 user_input_city = raw_input("Please enter a city > ")
-user_input_year = raw_input("Please enter a year; it can be from 1970 through 2010 in increments of 5 years > ")
+user_input_year = raw_input("Please choose a year: 1970 through 2010 in increments of 5 years > ")
 
-if "yr"+user_input_year in my_dict[user_input_city]["yr"+user_input_year]:
+if user_input_city in my_dict:
     print "The population of "+ user_input_city + " in " + user_input_year + " was " \
-                    + my_dict[user_input_city]["yr"+user_input_year] + " million people"
+                + my_dict[user_input_city]["yr"+user_input_year] + " million people"
+else: 
+    print "Try another city"
+
 
 """  
 def population_query():
     user_input_city = raw_input("Please enter a city > ")
     if user_input_city in my_dict:
-        try:
             user_input_year = raw_input("Please enter a year; it can be from 1970 through 2010 in increments of 5 years > ")
-            if "yr"+user_input_year in my_dict[user_input_city]["yr"+user_input_year]:
+            if "yr"+user_input_year in my_dict[user_input_city]:
                 print "The population of "+ user_input_city + " in " + user_input_year + " was " \
                 + my_dict[user_input_city]["yr"+user_input_year] + " million people"
-        except Exception:
-            print "Invalid year; choose a year from 1970-2010 in an increment of 5 years."
-            restart = True
-        else:
-            print "Invalid year; choose a year from 1970-2010 in an increment of 5 years."
+                restart = False
+            else:
+                print "Invalid year; choose a year from 1970-2010 in an increment of 5 years."
+                restart = True
     else: 
         print "Invalid city input. Try another city."
-        restart = True
-            
-while restart == True :
+        restart = True 
+
+while restart == True:
     population_query()
 
 
-
+"""  
 #this is insanely sloppy list shit, need to use dicts here
 city_list = []
 pop_2010_list = []
