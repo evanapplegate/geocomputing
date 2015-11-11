@@ -69,6 +69,7 @@ def distance_query(city1, city2):
 while restart == True:
 # this asks the user to enter two cities; if the inputs
 # aren't found in the dict, it asks the user to try again
+    print "This script calculates the great circle distance between two cities."
     user_input_city1 = raw_input("Please enter the first city > ")
     if user_input_city1 in my_dict:
         user_input_city2 = raw_input("Please enter the second city > ")
