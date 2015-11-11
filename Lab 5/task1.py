@@ -2,6 +2,9 @@ import os
 import sys
 import csv
 
+# for some reason my python install cant find stuff in the current directory
+# of the script, so this tells it to change directories to wherever the heck 
+# the script lives
 os.chdir(os.path.dirname(sys.argv[0]))
 test = open("CityPop.csv","rt")
 
@@ -13,20 +16,19 @@ reader = csv.DictReader(test)
 for row in reader:
     key = row.pop("label")
     my_dict[key] = row
-    
-print my_dict
  
 user_input_city = raw_input("Please enter a city > ")
-user_input_year = raw_input("Please choose a year: 1970 through 2010 in increments of 5 years > ")
+user_input_year = raw_input("Please choose a year; it can be from 1970 through 2010 in increments of 5 years > ")
 
 if user_input_city in my_dict:
-    print my_dict[user_input_city][key]
-    print my_dict[user_input_city]["yr"+user_input_year]
+    #print my_dict[user_input_city][key]
+    print "The population of "+ user_input_city + " in " + user_input_year + " was " \
+    + my_dict[user_input_city]["yr"+user_input_year] + " million people"
 else: 
     print "Try another city"
 
 """
-#this is insanely sloppy list shit, really need to use dicts here
+#this is insanely sloppy list shit, need to use dicts here
 city_list = []
 pop_2010_list = []
 
