@@ -54,22 +54,26 @@ def great_circle_calculator(first_city_lat, first_city_long, second_city_lat, se
                 "is approximately", round(great_circle_distance_converted), "km."
 
 
-# This function asks the user to enter two cities, looks up the lat/long
-# coordinates for each one, and then calculates the great circle distance
-# between the two
-def distance_query(city1, city):
-    print "This script finds the distance between two cities."
+# This function collects the city coordinates from the dict
+def distance_query(city1, city2):
+    first_city_lat = my_dict[user_input_city1]["latitude"]
+    first_city_long = my_dict[user_input_city1]["longitude"]
+    second_city_lat = my_dict[user_input_city2]["latitude"]
+    second_city_long = my_dict[user_input_city2]["longitude"]
+    great_circle_calculator(first_city_lat, first_city_long, second_city_lat, second_city_long)   
+    restart = False
+    sys.exit()
+
+
+# run this code when the restart value equals true
+while restart == True:
+# this asks the user to enter two cities; if the inputs
+# aren't found in the dict, it asks the user to try again
+    user_input_city1 = raw_input("Please enter the first city > ")
     if user_input_city1 in my_dict:
+        user_input_city2 = raw_input("Please enter the second city > ")
         if user_input_city2 in my_dict:
-            first_city_lat = my_dict[user_input_city1]["latitude"]
-            first_city_long = my_dict[user_input_city1]["longitude"]
-            second_city_lat = my_dict[user_input_city2]["latitude"]
-            second_city_long = my_dict[user_input_city2]["longitude"]
-            
-            great_circle_calculator(first_city_lat, first_city_long, second_city_lat, second_city_long)
-                        
-            restart = False
-            sys.exit()
+            distance_query(user_input_city1, user_input_city2)
         else:
             print "Invalid second city; please type another city."
             print " "
@@ -78,28 +82,8 @@ def distance_query(city1, city):
         print "Invalid first city; please type another city."
         print " "
         restart = True 
-    return user_input_city2
-    return user_input_city1
-
-# this asks the user to enter two cities
-user_input_city1 = raw_input("Please enter the first city > ")
-    if user_input_city1 in my_dict:
-        if user_input_city2 in my_dict:
-        else:
-            print "Invalid second city; please type another city."
-            print " "
-            restart = True
-    else: 
-        print "Invalid first city; please type another city."
-        print " "
-        restart = True 
-
-user_input_city2 = raw_input("Please enter the second city > ")
 
 # while the restart value = True, the script will restart. This is what
-# counts for error handling here
-while restart == True:
-    distance_query(user_input_city1, user_input_city2)
-    
+# counts for error handling here    
 while restart == False:
     sys.exit()
