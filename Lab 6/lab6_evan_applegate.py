@@ -48,11 +48,8 @@ class City:
 # this opens the CSV file
 spreadsheet = open("CityPop.csv","rt")
 
-#City.city_instance = ()
-
 # this reads in the CSV, splits  splits discrete LISTS by newline character,
 # then splits list entries by comma
-# strip off \r\n with rstrip?
 Cities = []
 reader = spreadsheet.readlines()
 for row in reader[1:]:
@@ -61,11 +58,20 @@ for row in reader[1:]:
     Cities.append(City(name = str(row[3]),
                        label = str(row[4]),
                        lat = float(row[1]),
-                       lon = float(row[2])))
-    # just printing Cities yields nonsense, but think of it this way: Cities[position in list = row].column header you just
-    # defined up there. so Cities[1].label gets you "New Delhi" while Cities[1].lon gets you 77.2008133. if you try
-    # printing Cities[1].pop_1970 without defining its source from the CSV it will spit back -1, i.e. the init value
-    # you gave above
-print Cities[1].pop_1970
-    #City_instance = City_name(name = str(row[3]))#, label = str(row[4]), lat = float(row[1]), lon = float(row[2]))
-    #print City_instance
+                       lon = float(row[2]),
+                       pop_1970 = float(row[5]),
+                       pop_1975 = float(row[6]),
+                       pop_1980 = float(row[7]),
+                       pop_1985 = float(row[8]),
+                       pop_1990 = float(row[9]),
+                       pop_1995 = float(row[10]),
+                       pop_2000 = float(row[11]),
+                       pop_2005 = float(row[12]),
+                       pop_2010 = float(row[13])))
+    # just printing Cities yields nonsense, but think of it this way:
+    # Cities[position in list = row].colum header you just defined up there.
+    # so Cities[1].label gets you "New Delhi" while 
+    # Cities[1].lon gets you 77.2008133. if you try printing Cities[1].pop_1970 
+    # without defining its source from the CSV it will spit back -1, i.e. the init value
+    # you gave above. so you've just made instances!
+print Cities[5].pop_2010
