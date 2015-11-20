@@ -1,0 +1,17 @@
+#Example 1
+
+class City:
+    def printLatitude(self):
+        print "%s is at latitude %.2f" % (self.name,self.lat)
+
+
+LA = City()
+LA.name = "Los Angeles"
+LA.lat = 33.93
+
+Mad = City()
+Mad.name = "Madison"
+Mad.lat  = 43.08
+
+LA.printLatitude()
+Mad.printLatitude()
