@@ -1,24 +1,26 @@
 import './PostCard.css'
 
 const PostCard = ({ post }) => {
-  const downloadUrl = `/api/posts/${post.id}/download`
-  
   return (
     <article className="post-card">
       <div className="post-images">
         <div className="post-image-wrapper">
-          <img 
-            src={post.image_url_display_1} 
-            alt={post.caption || 'Post image 1'}
-            loading="lazy"
-          />
+          <a href={post.image_url_full_1} target="_blank" rel="noopener noreferrer">
+            <img 
+              src={post.image_url_display_1} 
+              alt={post.caption || 'Post image 1'}
+              loading="lazy"
+            />
+          </a>
         </div>
         <div className="post-image-wrapper">
-          <img 
-            src={post.image_url_display_2} 
-            alt={post.caption || 'Post image 2'}
-            loading="lazy"
-          />
+          <a href={post.image_url_full_2} target="_blank" rel="noopener noreferrer">
+            <img 
+              src={post.image_url_display_2} 
+              alt={post.caption || 'Post image 2'}
+              loading="lazy"
+            />
+          </a>
         </div>
       </div>
       {post.caption && (
@@ -37,9 +39,7 @@ const PostCard = ({ post }) => {
         </div>
       )}
       <div className="post-author">
-        <a href={`/user/${post.author.email}`}>
-          {post.author.display_name}
-        </a>
+        {post.author.display_name}
       </div>
     </article>
   )

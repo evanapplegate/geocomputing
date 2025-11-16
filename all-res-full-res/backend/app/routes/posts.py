@@ -11,10 +11,20 @@ from app.r2_storage import upload_image
 router = APIRouter(prefix="/api/posts", tags=["posts"])
 
 
-@router.get("", response_model=List[PostResponse])
-async def get_posts(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
-    """Get feed of posts"""
+@router.get("/feed", response_model=List[PostResponse])
+async def get_feed(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
+    """Get feed of all posts"""
     posts = db.query(Post).order_by(desc(Post.created_at)).offset(skip).limit(limit).all()
+    return posts
+
+
+@router.get("/my", response_model=List[PostResponse])
+async def get_my_posts(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get current user's posts"""
+    posts = db.query(Post).filter(Post.user_id == current_user.id).order_by(desc(Post.created_at)).all()
     return posts
 
 
@@ -39,12 +49,18 @@ async def create_post(
     image1_data = await image1.read()
     image2_data = await image2.read()
     
-    # Validate file size (50MB max)
-    max_size = 50 * 1024 * 1024
+    # Validate file size (10MB minimum, 500MB max)
+    min_size = 10 * 1024 * 1024  # 10MB
+    max_size = 500 * 1024 * 1024  # 500MB
+    if len(image1_data) < min_size or len(image2_data) < min_size:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Image must be at least 10MB. Current sizes: {len(image1_data)/(1024*1024):.2f}MB, {len(image2_data)/(1024*1024):.2f}MB"
+        )
     if len(image1_data) > max_size or len(image2_data) > max_size:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Image size must be less than 50MB"
+            detail="Image size must be less than 500MB"
         )
     
     # Create post record first to get ID
@@ -62,8 +78,8 @@ async def create_post(
     
     # Upload images to R2
     try:
-        display_url_1, full_url_1 = upload_image(image1_data, current_user.id, post.id, 1)
-        display_url_2, full_url_2 = upload_image(image2_data, current_user.id, post.id, 2)
+        display_url_1, full_url_1 = upload_image(image1_data, current_user.id, post.id, 1, image1.filename)
+        display_url_2, full_url_2 = upload_image(image2_data, current_user.id, post.id, 2, image2.filename)
         
         # Update post with URLs
         post.image_url_display_1 = display_url_1

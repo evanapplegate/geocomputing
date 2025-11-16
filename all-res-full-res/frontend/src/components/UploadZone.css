@@ -1,0 +1,114 @@
+.upload-zone-wrapper {
+  max-width: 100%;
+  width: 100%;
+}
+
+.upload-zone {
+  min-height: 200px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafafa;
+  padding: 40px;
+}
+
+.upload-zone:hover {
+  border-color: #999;
+  background: #f5f5f5;
+}
+
+.upload-zone.dragging {
+  border-color: #000;
+  background: #f0f0f0;
+}
+
+.upload-zone.has-file {
+  border-style: solid;
+  border-color: #000;
+  background: #fff;
+}
+
+.upload-zone-content {
+  text-align: center;
+}
+
+.upload-text {
+  font-size: 18px;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.upload-formats {
+  font-size: 12px;
+  color: #999;
+  letter-spacing: 1px;
+}
+
+.file-info {
+  text-align: center;
+}
+
+.file-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+.file-size {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.remove-file {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background: #fff;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.remove-file:hover {
+  border-color: #000;
+  color: #000;
+}
+
+.upload-error {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fee;
+  color: #c00;
+  font-size: 14px;
+  border: 1px solid #fcc;
+  text-align: center;
+}
+
+.upload-button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 16px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.upload-button:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.upload-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

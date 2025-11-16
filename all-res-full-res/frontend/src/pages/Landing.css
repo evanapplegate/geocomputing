@@ -1,0 +1,71 @@
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: #ffffff;
+}
+
+.landing-container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.landing-auth {
+  margin-top: 60px;
+}
+
+.landing-auth h2 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 32px;
+  color: #666;
+  letter-spacing: 0.5px;
+}
+
+.sso-button {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px 24px;
+  margin: 12px auto;
+  font-size: 16px;
+  font-weight: 400;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #000;
+  display: block;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.sso-button:hover {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+
+.google-button {
+  margin-top: 0;
+}
+
+.github-button {
+  background: #24292e;
+  color: #fff;
+  border-color: #24292e;
+}
+
+.github-button:hover {
+  background: #000;
+  border-color: #000;
+}
+
+.landing-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #999;
+}

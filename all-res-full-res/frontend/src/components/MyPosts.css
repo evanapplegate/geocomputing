@@ -1,0 +1,16 @@
+.my-posts-container {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+.posts-list {
+  max-width: 100%;
+}

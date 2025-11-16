@@ -1,0 +1,20 @@
+.app-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.app-content {
+  padding: 40px 0;
+}
+
+.upload-zone-wrapper-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 40px 20px;
+  z-index: 100;
+  max-width: 100%;
+}

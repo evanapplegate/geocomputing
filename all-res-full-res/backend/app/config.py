@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     cloudflare_r2_endpoint: str
     google_client_id: str
     google_client_secret: str
+    github_client_id: str
+    github_client_secret: str
     secret_key: str
     email_api_key: Optional[str] = None
     email_from: str = "noreply@allresfullres.com"
