@@ -14,6 +14,7 @@ from app.auth import (
 )
 from app.email_service import send_password_reset_email
 from app.logger import log_auth_event, log_error
+from app.config import settings
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -21,7 +22,6 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 @router.get("/google")
 async def google_auth_initiate():
     """Initiate Google OAuth flow"""
-    from app.config import settings
     import urllib.parse
     
     # Construct backend URL for callback
@@ -46,7 +46,6 @@ async def google_auth_initiate():
 @router.get("/google/callback")
 async def google_callback(code: str, db: Session = Depends(get_db)):
     """Handle Google OAuth callback"""
-    from app.config import settings
     import httpx
     
     # Construct backend URL for callback
@@ -118,7 +117,6 @@ async def google_callback(code: str, db: Session = Depends(get_db)):
 @router.get("/github")
 async def github_auth_initiate():
     """Initiate GitHub OAuth flow"""
-    from app.config import settings
     import urllib.parse
     
     # Construct backend URL for callback
@@ -140,7 +138,6 @@ async def github_auth_initiate():
 @router.get("/github/callback")
 async def github_callback(code: str, db: Session = Depends(get_db)):
     """Handle GitHub OAuth callback"""
-    from app.config import settings
     import httpx
     
     # Construct backend URL for callback
@@ -223,7 +220,6 @@ async def github_callback(code: str, db: Session = Depends(get_db)):
 @router.get("/x")
 async def x_auth_initiate():
     """Initiate X/Twitter OAuth flow"""
-    from app.config import settings
     import urllib.parse
     
     # Construct backend URL for callback
@@ -253,7 +249,6 @@ async def x_auth_initiate():
 @router.get("/x/callback")
 async def x_callback(code: str, state: str, db: Session = Depends(get_db)):
     """Handle X/Twitter OAuth callback"""
-    from app.config import settings
     import httpx
     
     # Construct backend URL for callback
@@ -378,6 +373,31 @@ async def login(
     except Exception as e:
         log_error(e, "LOGIN")
         raise HTTPException(status_code=500, detail="Login failed")
+
+
+@router.post("/mock-login", response_model=Token)
+async def mock_login(db: Session = Depends(get_db)):
+    """Issue a JWT for local development when SSO/keys are unavailable."""
+    if not settings.allow_mock_auth:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Mock auth disabled")
+    
+    email = "dev@local.test"
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        user = User(
+            email=email,
+            display_name="Local Dev User"
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    
+    access_token = create_access_token(
+        data={"sub": user.id},
+        expires_delta=timedelta(days=7)
+    )
+    log_auth_event("MOCK_LOGIN", user.id)
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.post("/reset-password", status_code=200)

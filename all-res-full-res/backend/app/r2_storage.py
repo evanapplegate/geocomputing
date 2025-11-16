@@ -1,20 +1,40 @@
+import uuid
+import io
+from pathlib import Path
+from typing import Tuple
+
 import boto3
 from botocore.config import Config
-from app.config import settings
-import uuid
 from PIL import Image
-import io
 
-s3_client = boto3.client(
-    's3',
-    endpoint_url=settings.cloudflare_r2_endpoint,
-    aws_access_key_id=settings.cloudflare_r2_access_key_id,
-    aws_secret_access_key=settings.cloudflare_r2_secret_access_key,
-    config=Config(signature_version='s3v4'),
-    region_name='auto'
-)
+from app.config import settings
 
-BUCKET_NAME = settings.cloudflare_r2_bucket_name
+
+REQUIRED_R2_CONFIG = all([
+    settings.cloudflare_r2_endpoint,
+    settings.cloudflare_r2_access_key_id,
+    settings.cloudflare_r2_secret_access_key,
+    settings.cloudflare_r2_bucket_name
+])
+
+USE_LOCAL_STORAGE = not REQUIRED_R2_CONFIG
+LOCAL_MEDIA_ROOT = Path(__file__).resolve().parent.parent / "local_media"
+LOCAL_MEDIA_URL_BASE = "/local-media"
+
+if not USE_LOCAL_STORAGE:
+    s3_client = boto3.client(
+        's3',
+        endpoint_url=settings.cloudflare_r2_endpoint,
+        aws_access_key_id=settings.cloudflare_r2_access_key_id,
+        aws_secret_access_key=settings.cloudflare_r2_secret_access_key,
+        config=Config(signature_version='s3v4'),
+        region_name='auto'
+    )
+    BUCKET_NAME = settings.cloudflare_r2_bucket_name
+else:
+    s3_client = None
+    BUCKET_NAME = None
+    LOCAL_MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
 
 
 def optimize_image(image_data: bytes, max_width: int = 1920, quality: int = 85) -> bytes:
@@ -47,7 +67,15 @@ def optimize_image(image_data: bytes, max_width: int = 1920, quality: int = 85) 
         return image_data
 
 
-def upload_image(full_image_data: bytes, user_id: int, post_id: int, image_num: int, original_filename: str = None) -> tuple[str, str]:
+def _local_save(relative_path: Path, data: bytes) -> str:
+    path = LOCAL_MEDIA_ROOT / relative_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "wb") as f:
+        f.write(data)
+    return f"{LOCAL_MEDIA_URL_BASE}/{relative_path.as_posix()}"
+
+
+def upload_image(full_image_data: bytes, user_id: int, post_id: int, image_num: int, original_filename: str = None) -> Tuple[str, str]:
     """Upload both full-res and display versions. Returns (display_url, full_url)"""
     # Determine file extension from original filename or default to jpg
     if original_filename:
@@ -65,6 +93,13 @@ def upload_image(full_image_data: bytes, user_id: int, post_id: int, image_num: 
     
     # Optimize for display (will return original if RAW)
     display_image_data = optimize_image(full_image_data)
+    
+    if USE_LOCAL_STORAGE:
+        full_rel = Path(full_filename)
+        display_rel = Path(display_filename)
+        display_url = _local_save(display_rel, display_image_data)
+        full_url = _local_save(full_rel, full_image_data)
+        return display_url, full_url
     
     # Determine content type
     content_type_map = {
@@ -128,6 +163,10 @@ def upload_avatar(image_data: bytes, user_id: int) -> str:
     optimized_data = output.getvalue()
     
     filename = f"avatars/{user_id}/{uuid.uuid4()}.jpg"
+    
+    if USE_LOCAL_STORAGE:
+        return _local_save(Path(filename), optimized_data)
+    
     s3_client.put_object(
         Bucket=BUCKET_NAME,
         Key=filename,
@@ -141,6 +180,8 @@ def upload_avatar(image_data: bytes, user_id: int) -> str:
 
 def get_signed_download_url(key: str, expires_in: int = 3600) -> str:
     """Generate signed URL for full-res download"""
+    if USE_LOCAL_STORAGE:
+        return f"{LOCAL_MEDIA_URL_BASE}/{key}"
     return s3_client.generate_presigned_url(
         'get_object',
         Params={'Bucket': BUCKET_NAME, 'Key': key},

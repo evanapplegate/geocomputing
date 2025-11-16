@@ -14,6 +14,17 @@ Social media app for sharing high-resolution images with ar.en.a-inspired minima
 
 ## Setup
 
+### Quick local sandbox (no SSO keys)
+
+1. **Backend**
+   - Copy `backend/.env.example` to `backend/.env`
+   - Set `ALLOW_MOCK_AUTH=true`
+   - Leave the OAuth/Cloudflare variables blank (the backend will automatically switch to SQLite + local file storage under `backend/local_media`)
+2. **Frontend**
+   - Copy `frontend/.env.example` to `frontend/.env`
+   - Set `VITE_ENABLE_MOCK_AUTH=true` to reveal the “Dev login” button
+3. Run the backend and frontend dev servers as described below, then click “Dev login (local)” on the landing page to get an auth token and start uploading files (stored locally via `/local-media`).
+
 ### Backend
 
 1. Install dependencies:
@@ -61,4 +72,4 @@ heroku run alembic upgrade head
 
 ## Environment Variables
 
-See `backend/.env.example` for required variables.
+See `backend/.env.example` and `frontend/.env.example` for required variables. When deploying, ensure `ALLOW_MOCK_AUTH` and `VITE_ENABLE_MOCK_AUTH` remain `false`.
