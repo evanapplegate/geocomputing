@@ -1,0 +1,23 @@
+.tab-nav {
+  border-bottom: 1px solid var(--border-light);
+  background-color: var(--bg-light);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.dark-mode .tab-nav {
+  border-bottom-color: var(--border-dark);
+  background-color: var(--bg-dark);
+}
+
+.tab-nav-content {
+  display: flex;
+  gap: 0;
+}
+
+.tab-button {
+  padding: 20px 32px;
+  border-bottom: none;
+  border-radius: 0;
+}

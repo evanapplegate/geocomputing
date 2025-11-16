@@ -1,0 +1,53 @@
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: var(--bg-light);
+}
+
+.dark-mode .landing-page {
+  background-color: var(--bg-dark);
+}
+
+.landing-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+}
+
+.landing-container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.landing-auth {
+  margin-top: 60px;
+}
+
+.landing-auth h2 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 32px;
+  color: #666;
+  letter-spacing: 0.5px;
+}
+
+.sso-button {
+  width: 100%;
+  max-width: 400px;
+  margin: 12px auto;
+  display: block;
+}
+
+.landing-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #999;
+}

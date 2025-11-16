@@ -1,0 +1,118 @@
+.upload-zone-wrapper {
+  max-width: 100%;
+  width: 100%;
+}
+
+.upload-zone {
+  min-height: 200px;
+  border: 2px dashed var(--border-light);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--bg-light);
+  padding: 40px;
+}
+
+.dark-mode .upload-zone {
+  border-color: var(--border-dark);
+  background-color: var(--bg-dark);
+}
+
+.upload-zone:hover {
+  border-color: var(--text-light);
+}
+
+.dark-mode .upload-zone:hover {
+  border-color: var(--text-dark);
+}
+
+.upload-zone.dragging {
+  border-color: var(--text-light);
+  background-color: var(--bg-light);
+}
+
+.dark-mode .upload-zone.dragging {
+  border-color: var(--text-dark);
+  background-color: var(--bg-dark);
+}
+
+.upload-zone.has-file {
+  border-style: solid;
+  border-color: var(--text-light);
+  background-color: var(--bg-light);
+}
+
+.dark-mode .upload-zone.has-file {
+  border-color: var(--text-dark);
+  background-color: var(--bg-dark);
+}
+
+.upload-zone-content {
+  text-align: center;
+}
+
+.upload-text {
+  font-size: 18px;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.upload-formats {
+  font-size: 12px;
+  color: #999;
+  letter-spacing: 1px;
+}
+
+.file-info {
+  text-align: center;
+}
+
+.file-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+.file-size {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.remove-file {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background: #fff;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.remove-file:hover {
+  border-color: #000;
+  color: #000;
+}
+
+.upload-error {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fee;
+  color: #c00;
+  font-size: 14px;
+  border: 1px solid #fcc;
+  text-align: center;
+}
+
+.upload-button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 400;
+}

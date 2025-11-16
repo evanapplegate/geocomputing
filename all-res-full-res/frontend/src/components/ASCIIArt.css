@@ -1,0 +1,23 @@
+.ascii-art {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  color: #000;
+  margin: 0;
+  padding: 20px 0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .ascii-art {
+    font-size: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ascii-art {
+    font-size: 4px;
+  }
+}

@@ -1,0 +1,22 @@
+.my-feed-container {
+  padding: 40px 0;
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+.feed-posts {
+  max-width: 100%;
+}
+
+.load-more {
+  display: block;
+  margin: 40px auto;
+  padding: 12px 24px;
+  font-size: 14px;
+}
