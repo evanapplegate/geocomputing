@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
 import './UploadZone.css'
+import '../styles/buttons.css'
+import { validateFileSize, validateFileType } from '../utils/validation'
+import { handleApiError } from '../utils/errorHandler'
 
 const UploadZone = ({ onUploadComplete }) => {
   const [isDragging, setIsDragging] = useState(false)
@@ -9,33 +12,19 @@ const UploadZone = ({ onUploadComplete }) => {
   const [error, setError] = useState('')
   const fileInputRef = useRef(null)
 
-  const MIN_SIZE_MB = 10
-  const MIN_SIZE_BYTES = MIN_SIZE_MB * 1024 * 1024
-
-  const allowedExtensions = [
-    '.png', '.jpg', '.jpeg', '.tiff', '.tif',
-    '.cr2', '.nef', '.arw', '.raf', '.orf', '.rw2', '.pef', '.srw', '.dng'
-  ]
-
-  const validateFile = (file) => {
-    const fileSizeMB = file.size / (1024 * 1024)
-    
-    if (file.size < MIN_SIZE_BYTES) {
-      return `File must be at least ${MIN_SIZE_MB}MB. Current size: ${fileSizeMB.toFixed(2)}MB`
-    }
-
-    const ext = '.' + file.name.split('.').pop().toLowerCase()
-    if (!allowedExtensions.includes(ext)) {
-      return `Unsupported format. Allowed: PNG, JPG, TIFF, RAW (CR2, NEF, ARW, etc.)`
-    }
-
-    return null
-  }
-
   const handleFileSelect = (file) => {
-    const validationError = validateFile(file)
-    if (validationError) {
-      setError(validationError)
+    // Validate file type
+    const typeValidation = validateFileType(file)
+    if (!typeValidation.valid) {
+      setError(typeValidation.error)
+      setSelectedFile(null)
+      return
+    }
+    
+    // Validate file size
+    const sizeValidation = validateFileSize(file)
+    if (!sizeValidation.valid) {
+      setError(sizeValidation.error)
       setSelectedFile(null)
       return
     }
@@ -96,7 +85,7 @@ const UploadZone = ({ onUploadComplete }) => {
       }
       onUploadComplete()
     } catch (err) {
-      setError(err.response?.data?.detail || 'Upload failed')
+      setError(handleApiError(err))
     } finally {
       setUploading(false)
     }
@@ -152,7 +141,7 @@ const UploadZone = ({ onUploadComplete }) => {
         <button
           onClick={handleUpload}
           disabled={uploading}
-          className="upload-button"
+          className="upload-button button-base button-primary"
         >
           {uploading ? 'Uploading...' : 'Upload'}
         </button>

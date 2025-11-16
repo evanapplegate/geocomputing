@@ -1,6 +1,18 @@
 .app-page {
   min-height: 100vh;
-  background: #ffffff;
+  background-color: var(--bg-light);
+}
+
+.dark-mode .app-page {
+  background-color: var(--bg-dark);
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 1000;
 }
 
 .app-content {
@@ -12,9 +24,14 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
-  border-top: 1px solid #eee;
+  background-color: var(--bg-light);
+  border-top: 1px solid var(--border-light);
   padding: 40px 20px;
   z-index: 100;
   max-width: 100%;
+}
+
+.dark-mode .upload-zone-wrapper-fixed {
+  background-color: var(--bg-dark);
+  border-top-color: var(--border-dark);
 }

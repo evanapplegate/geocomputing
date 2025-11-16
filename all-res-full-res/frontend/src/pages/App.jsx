@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import { useTheme } from '../contexts/ThemeContext'
 import TabNav from '../components/TabNav'
 import MyPosts from '../components/MyPosts'
 import MyFeed from '../components/MyFeed'
 import UploadZone from '../components/UploadZone'
+import DarkModeToggle from '../components/DarkModeToggle'
 import './App.css'
 
 const App = () => {
   const { user } = useAuth()
+  const { darkMode } = useTheme()
   const [activeTab, setActiveTab] = useState('feed')
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -18,6 +21,9 @@ const App = () => {
 
   return (
     <div className="app-page">
+      <div className="app-header">
+        <DarkModeToggle />
+      </div>
       <TabNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="app-content">
         {activeTab === 'feed' && <MyFeed key={`feed-${refreshKey}`} />}

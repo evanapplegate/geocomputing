@@ -95,17 +95,5 @@
 .save-btn {
   width: 100%;
   padding: 12px;
-  background: #000;
-  color: white;
   font-size: 14px;
-  transition: opacity 0.2s;
-}
-
-.save-btn:hover:not(:disabled) {
-  opacity: 0.8;
-}
-
-.save-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }

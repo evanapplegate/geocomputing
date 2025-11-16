@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PostCard from './PostCard'
 import './MyFeed.css'
+import '../styles/buttons.css'
 
 const MyFeed = () => {
   const [posts, setPosts] = useState([])
@@ -58,7 +59,7 @@ const MyFeed = () => {
               ))}
             </div>
             {hasMore && (
-              <button onClick={loadMore} className="load-more">
+              <button onClick={loadMore} className="load-more button-base">
                 Load More
               </button>
             )}

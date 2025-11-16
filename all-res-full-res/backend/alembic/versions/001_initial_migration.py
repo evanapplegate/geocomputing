@@ -23,6 +23,7 @@ def upgrade() -> None:
         sa.Column('email', sa.String(), nullable=False),
         sa.Column('google_id', sa.String(), nullable=True),
         sa.Column('github_id', sa.String(), nullable=True),
+        sa.Column('x_id', sa.String(), nullable=True),
         sa.Column('display_name', sa.String(), nullable=False),
         sa.Column('avatar_url', sa.String(), nullable=True),
         sa.Column('password_hash', sa.String(), nullable=True),
@@ -34,6 +35,7 @@ def upgrade() -> None:
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
     op.create_index(op.f('ix_users_google_id'), 'users', ['google_id'], unique=True)
     op.create_index(op.f('ix_users_github_id'), 'users', ['github_id'], unique=True)
+    op.create_index(op.f('ix_users_x_id'), 'users', ['x_id'], unique=True)
 
     op.create_table(
         'posts',
@@ -89,6 +91,7 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_posts_user_id'), table_name='posts')
     op.drop_index(op.f('ix_posts_id'), table_name='posts')
     op.drop_table('posts')
+    op.drop_index(op.f('ix_users_x_id'), table_name='users')
     op.drop_index(op.f('ix_users_github_id'), table_name='users')
     op.drop_index(op.f('ix_users_google_id'), table_name='users')
     op.drop_index(op.f('ix_users_email'), table_name='users')

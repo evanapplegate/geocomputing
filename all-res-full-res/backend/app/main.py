@@ -1,9 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import auth, posts, users
 from app.config import settings
+from app.middleware import logging_middleware
 
 app = FastAPI(title="All Res Full Res API")
+
+# Logging middleware
+app.middleware("http")(logging_middleware)
 
 # CORS middleware
 app.add_middleware(

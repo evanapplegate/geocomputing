@@ -19,13 +19,4 @@
   margin: 40px auto;
   padding: 12px 24px;
   font-size: 14px;
-  color: #666;
-  border: 1px solid #ddd;
-  background: #fff;
-  transition: all 0.2s;
-}
-
-.load-more:hover {
-  color: #000;
-  border-color: #000;
 }

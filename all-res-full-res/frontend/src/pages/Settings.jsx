@@ -3,6 +3,7 @@ import axios from 'axios'
 import Navbar from '../components/Navbar'
 import { useAuth } from '../contexts/AuthContext'
 import './Settings.css'
+import '../styles/buttons.css'
 
 const Settings = () => {
   const { user, checkAuth } = useAuth()
@@ -162,7 +163,7 @@ const Settings = () => {
               </div>
             </div>
 
-            <button onClick={handleSave} disabled={loading} className="save-btn">
+            <button onClick={handleSave} disabled={loading} className="save-btn button-base button-primary">
               {loading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>

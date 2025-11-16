@@ -1,5 +1,10 @@
 .post-card {
   margin-bottom: 60px;
+  background-color: var(--bg-light);
+}
+
+.dark-mode .post-card {
+  background-color: var(--bg-dark);
 }
 
 .post-images {

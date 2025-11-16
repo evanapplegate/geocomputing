@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     google_client_secret: str
     github_client_id: str
     github_client_secret: str
+    x_client_id: str
+    x_client_secret: str
     secret_key: str
     email_api_key: Optional[str] = None
     email_from: str = "noreply@allresfullres.com"

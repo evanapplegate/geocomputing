@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import Navbar from '../components/Navbar'
 import './ResetPassword.css'
+import '../styles/buttons.css'
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams()
@@ -75,9 +76,9 @@ const ResetPassword = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
-                <button type="submit" disabled={loading}>
-                  {loading ? 'Resetting...' : 'Reset Password'}
-                </button>
+              <button type="submit" disabled={loading} className="button-base button-primary">
+                {loading ? 'Resetting...' : 'Reset Password'}
+              </button>
               </form>
             </div>
           </div>
@@ -102,7 +103,7 @@ const ResetPassword = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <button type="submit" disabled={loading}>
+              <button type="submit" disabled={loading} className="button-base button-primary">
                 {loading ? 'Sending...' : 'Send Reset Link'}
               </button>
             </form>
