@@ -1,0 +1,131 @@
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
+from sqlalchemy.orm import Session
+from sqlalchemy import desc
+from typing import List, Optional
+from app.database import get_db
+from app.models import Post, User
+from app.schemas import PostCreate, PostResponse
+from app.auth import get_current_user
+from app.r2_storage import upload_image
+
+router = APIRouter(prefix="/api/posts", tags=["posts"])
+
+
+@router.get("", response_model=List[PostResponse])
+async def get_posts(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
+    """Get feed of posts"""
+    posts = db.query(Post).order_by(desc(Post.created_at)).offset(skip).limit(limit).all()
+    return posts
+
+
+@router.post("", response_model=PostResponse, status_code=status.HTTP_201_CREATED)
+async def create_post(
+    image1: UploadFile = File(...),
+    image2: UploadFile = File(...),
+    caption: Optional[str] = Form(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Create new post with two images"""
+    # Validate file types
+    allowed_types = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
+    if image1.content_type not in allowed_types or image2.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only JPEG, PNG, and WebP images are allowed"
+        )
+    
+    # Read image data
+    image1_data = await image1.read()
+    image2_data = await image2.read()
+    
+    # Validate file size (50MB max)
+    max_size = 50 * 1024 * 1024
+    if len(image1_data) > max_size or len(image2_data) > max_size:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Image size must be less than 50MB"
+        )
+    
+    # Create post record first to get ID
+    post = Post(
+        user_id=current_user.id,
+        caption=caption,
+        image_url_display_1="",  # Temporary
+        image_url_display_2="",
+        image_url_full_1="",
+        image_url_full_2=""
+    )
+    db.add(post)
+    db.commit()
+    db.refresh(post)
+    
+    # Upload images to R2
+    try:
+        display_url_1, full_url_1 = upload_image(image1_data, current_user.id, post.id, 1)
+        display_url_2, full_url_2 = upload_image(image2_data, current_user.id, post.id, 2)
+        
+        # Update post with URLs
+        post.image_url_display_1 = display_url_1
+        post.image_url_display_2 = display_url_2
+        post.image_url_full_1 = full_url_1
+        post.image_url_full_2 = full_url_2
+        db.commit()
+        db.refresh(post)
+    except Exception as e:
+        db.delete(post)
+        db.commit()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to upload images: {str(e)}"
+        )
+    
+    return post
+
+
+@router.get("/{post_id}", response_model=PostResponse)
+async def get_post(post_id: int, db: Session = Depends(get_db)):
+    """Get single post"""
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    return post
+
+
+@router.get("/{post_id}/download")
+async def download_full_res(post_id: int, db: Session = Depends(get_db)):
+    """Get full-resolution download URL"""
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    # Return direct URL (R2 public URLs)
+    return {"url": post.image_url_full_1}
+
+
+@router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_post(
+    post_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Delete post (author only)"""
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    if post.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to delete this post"
+        )
+    db.delete(post)
+    db.commit()
+    return None
